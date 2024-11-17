@@ -1,5 +1,5 @@
 # KeepSultan: Keep应用跑步截图生成器
-[English](https://github.com/Carzit/KeepSultan/blob/main/README_en) | 中文
+[English](https://github.com/Carzit/KeepSultan/blob/main/README_en.md) | 中文
 
 ## 1. 项目简介
 

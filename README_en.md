@@ -1,5 +1,5 @@
 # KeepSultan: Keep App Running Screenshot Generator
-English | [中文](https://github.com/Carzit/KeepSultan/blob/main/README_en)
+English | [中文](https://github.com/Carzit/KeepSultan/blob/main/README.md)
 
 ## 1. Project Overview
 
