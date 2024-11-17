@@ -1,8 +1,10 @@
+__all__ = ["KeepSultan"]
+
 import random
+import argparse
 from datetime import datetime, timedelta
 from PIL import Image, ImageDraw, ImageFont
 import json
-
 
 from numbers import Number
 from typing import List, Tuple, Dict, Literal, Union, Optional, Callable, Any
@@ -176,6 +178,28 @@ class KeepSultan:
     def load_configs(self, config_path:str):
         with open(config_path, "r") as f:
             self.configs = json.load(f)
+
+    def load_args(self, args:argparse.Namespace):
+        if args.avatar:
+            k.configs["avatar"] = args.avatar
+        if args.username:
+            k.configs["username"] = args.username
+        if args.date:
+            k.configs["date"] = args.date
+        if args.end_time:
+            k.configs["end_time"] = args.end_time
+        if args.total_km:
+            k.configs["total_km"] = args.total_km
+        if args.sport_time:
+            k.configs["sport_time"] = args.sport_time
+        if args.total_time:
+            k.configs["total_time"] = args.total_time
+        if args.cumulative_climb:
+            k.configs["cumulative_climb"] = args.cumulative_climb
+        if args.average_cadence:
+            k.configs["average_cadence"] = args.average_cadence
+        if args.exercise_load:
+            k.configs["exercise_load"] = args.exercise_load
     
     def load_template(self, image_path:str):
         img = Image.open(image_path)
@@ -249,11 +273,30 @@ class KeepSultan:
         self.image_editor.add_text(str(average_cadence), (800, 1910), r"D:\Fonts\Qanelas\QanelasSemiBold.otf", 65, (0, 0, 0)) #平均步频
         self.image_editor.add_text(str(exercise_load), (55, 2070), r"D:\Fonts\Qanelas\QanelasSemiBold.otf", 65, (0, 0, 0)) #运动负荷
 
+def parse_args():
+    parser = argparse.ArgumentParser(description="Sultan of Keep")
+    parser.add_argument("--config_path", type=str, default="config.json", help="Path of config file. Default `config.json`")
+    parser.add_argument("--save_path", type=str, default="save.png", help="Path of saved image. Default `save.png`")
+
+    parser.add_argument("--avatar", type=str, default=None, help="Path of avatar image. Default None")
+    parser.add_argument("--username", type=str, default=None, help="Username. Default None")
+    parser.add_argument("--date", type=str, default=None, help="Date. Default None")
+    parser.add_argument("--end_time", type=str, default=None, help="End time, in format of &H:&M. Default None")
+    parser.add_argument("--total_km", type=float, default=None, help="Total running distance (km). Default None")
+    parser.add_argument("--sport_time", type=str, default=None, help="Sport time, in format of &H:&M:&S. Default None")
+    parser.add_argument("--total_time", type=str, default=None, help="Total time, in format of &H:&M:&S. Default None")
+    parser.add_argument("--cumulative_climb", type=str, default=None, help="Cumulative climb height. Default None")
+    parser.add_argument("--average_cadence", type=str, default=None, help="Average cadence. Default None")
+    parser.add_argument("--exercise_load", type=str, default=None, help="Excersice load. Default None")
+    return parser.parse_args()
+
 if __name__ == "__main__":
+    args = parse_args()
     k = KeepSultan()
-    k.load_configs("config.json")
+    k.load_configs(args.config_path)
+    k.load_args(args)
     k.process()
-    k.save("test.png")
+    k.save(args.save_path)
 
 
 
