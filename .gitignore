@@ -1,0 +1,7 @@
+__pycache__/
+build/
+dist/
+fonts/
+KeepSultan/
+KeepSultan.zip
+KeepSultanGUI.spec

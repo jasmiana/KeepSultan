@@ -1,0 +1,30 @@
+{
+    "avatar": "",
+    "username": "",
+    "date": "2024/11/18",
+    "end_time": "02:01",
+    "total_km": [
+        "3.02",
+        "3.3"
+    ],
+    "sport_time": [
+        "00:21:00",
+        "00:23:00"
+    ],
+    "total_time": [
+        "00:34:00",
+        "00:39:00"
+    ],
+    "cumulative_climb": [
+        "90",
+        "96"
+    ],
+    "average_cadence": [
+        "76",
+        "81"
+    ],
+    "exercise_load": [
+        "48",
+        "51"
+    ]
+}
