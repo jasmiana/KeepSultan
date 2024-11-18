@@ -145,7 +145,7 @@ class KeepSultanGUI:
         self.manager.configs["avatar"] = self.avatar_path.get()
         self.manager.process()
         self.config_manager.update()
-        self.show_preview(self.manager.image_editor.img)
+        self.show_preview(self.manager.image_editor.img.copy())
 
     def save_image(self):
         save_path = filedialog.asksaveasfilename(defaultextension=".png",
