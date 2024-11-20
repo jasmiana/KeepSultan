@@ -123,25 +123,30 @@ def calculate_cost(time_str):
 
 class ImageEditor:
     def __init__(self):
+        """
+        Initialize the ImageEditor with an empty image attribute.
+        """
         self.img:Image.Image
 
     def load_image(self, img:Image.Image):
+        """
+        Load an image into the editor.
+
+        Args:
+            img (Image.Image): The image to load.
+        """
         self.img = img
 
     def add_image(self, 
                   img:Image.Image, 
                   position:Tuple[int, int]):
         """
-        在主图片的指定位置添加一个圆形头像。
-        
-        :param main_image_path: 主图片的路径
-        :param avatar_path: 头像图片的路径
-        :param position: 在主图片上放置头像的位置 (x, y)
-        :param avatar_size: 头像的尺寸 (width, height)
-        :param output_path: 输出图片的路径
+        Add an image to the current image at the specified position.
+
+        Args:
+            img (Image.Image): The image to add.
+            position (Tuple[int, int]): The position to place the image.
         """
-        # 创建圆形头像
-        # 将圆形头像粘贴到主图片上
         self.img.paste(img, position, img)
 
     def add_text(self, 
@@ -150,11 +155,27 @@ class ImageEditor:
                  font_path:str, 
                  font_size:int, 
                  color:Tuple[int, int, int]):
+        """
+        Add text to the current image at the specified position.
+
+        Args:
+            text (str): The text to add.
+            position (Tuple[int, int]): The position to place the text.
+            font_path (str): The path to the font file.
+            font_size (int): The size of the font.
+            color (Tuple[int, int, int]): The color of the text.
+        """
         draw = ImageDraw.Draw(self.img)
         font = ImageFont.truetype(font_path, font_size)
         draw.text(position, text, fill=color, font=font)
 
     def save(self, save_path:str):
+        """
+        Save the current image to the specified path.
+
+        Args:
+            save_path (str): The path to save the image.
+        """
         self.img.save(save_path)
 
 class KeepSultan:
@@ -265,13 +286,13 @@ class KeepSultan:
         self.image_editor.add_text('公里', (418, 610), "fonts/SourceHanSansCN-Regular.otf", 43, (0, 0, 0))
 
         self.image_editor.add_text(str(sport_time), (55, 1750), "fonts/QanelasSemiBold.otf", 65, (0, 0, 0)) #运动时长
-        self.image_editor.add_text(pace, (445, 1750), r"D:\Fonts\Qanelas\QanelasSemiBold.otf", 65, (0, 0, 0)) #平均配速
-        self.image_editor.add_text(str(cost), (800, 1750), r"D:\Fonts\Qanelas\QanelasSemiBold.otf", 65, (0, 0, 0)) #运动消耗
+        self.image_editor.add_text(pace, (445, 1750), "fonts/QanelasSemiBold.otf", 65, (0, 0, 0)) #平均配速
+        self.image_editor.add_text(str(cost), (800, 1750), "fonts/QanelasSemiBold.otf", 65, (0, 0, 0)) #运动消耗
 
-        self.image_editor.add_text(str(total_time), (55, 1910), r"D:\Fonts\Qanelas\QanelasSemiBold.otf", 65, (0, 0, 0)) #总时长
-        self.image_editor.add_text(str(cumulative_climb), (445, 1910), r"D:\Fonts\Qanelas\QanelasSemiBold.otf", 65, (0, 0, 0)) #累计爬升
-        self.image_editor.add_text(str(average_cadence), (800, 1910), r"D:\Fonts\Qanelas\QanelasSemiBold.otf", 65, (0, 0, 0)) #平均步频
-        self.image_editor.add_text(str(exercise_load), (55, 2070), r"D:\Fonts\Qanelas\QanelasSemiBold.otf", 65, (0, 0, 0)) #运动负荷
+        self.image_editor.add_text(str(total_time), (55, 1910), "fonts/QanelasSemiBold.otf", 65, (0, 0, 0)) #总时长
+        self.image_editor.add_text(str(cumulative_climb), (445, 1910), "fonts/QanelasSemiBold.otf", 65, (0, 0, 0)) #累计爬升
+        self.image_editor.add_text(str(average_cadence), (800, 1910), "fonts/QanelasSemiBold.otf", 65, (0, 0, 0)) #平均步频
+        self.image_editor.add_text(str(exercise_load), (55, 2070), "fonts/QanelasSemiBold.otf", 65, (0, 0, 0)) #运动负荷
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Sultan of Keep")

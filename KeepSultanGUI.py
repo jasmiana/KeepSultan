@@ -97,11 +97,11 @@ class KeepSultanGUI:
         for i, (key, value) in enumerate(self.params.items()):
             tk.Label(frame, text=key.capitalize()).grid(row=i, column=0, sticky="w")
             if isinstance(value, list):  # Handle ranges
-                e1 = tk.Entry(frame, textvariable=value[0], width=5)
+                e1 = tk.Entry(frame, textvariable=value[0], width=7)
                 e1.grid(row=i, column=1)
                 e1.insert(0, str(self.config_manager.configs[key][0]))
-                tk.Label(frame, text=" - ").grid(row=i, column=2)
-                e2 = tk.Entry(frame, textvariable=value[1], width=5)
+                tk.Label(frame, text=" - ", width=2).grid(row=i, column=2)
+                e2 = tk.Entry(frame, textvariable=value[1], width=7)
                 e2.grid(row=i, column=3)
                 e2.insert(0, str(self.config_manager.configs[key][1]))
             else:  # Handle single values
