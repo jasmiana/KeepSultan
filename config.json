@@ -1,11 +1,13 @@
 {
-    "avatar": "",
-    "username": "",
-    "date": "2024/11/18",
-    "end_time": "02:01",
+    "template": "scr/template.png",
+    "map": "scr/map3.png",
+    "avatar": "C:/Users/18505/Downloads/126076978.jpg",
+    "username": "³Ì×ÓÍ©22327021",
+    "date": "2024/11/17",
+    "end_time": "22:54",
     "total_km": [
-        "3.02",
-        "3.3"
+        3.02,
+        3.3
     ],
     "sport_time": [
         "00:21:00",
@@ -16,15 +18,15 @@
         "00:39:00"
     ],
     "cumulative_climb": [
-        "90",
-        "96"
+        90,
+        96
     ],
     "average_cadence": [
-        "76",
-        "81"
+        76,
+        81
     ],
     "exercise_load": [
-        "48",
-        "51"
+        48,
+        51
     ]
 }

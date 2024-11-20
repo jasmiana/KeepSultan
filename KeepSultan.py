@@ -182,6 +182,8 @@ class KeepSultan:
     def __init__(self):
         self.image_editor = ImageEditor()
         self.configs = {
+            "template": "scr/template.png", 
+            "map": "scr/map.png",
             "avatar": "",
             "username": "",
 
@@ -201,6 +203,10 @@ class KeepSultan:
             self.configs = json.load(f)
 
     def load_args(self, args:argparse.Namespace):
+        if args.template:
+            k.configs["template"] = args.template
+        if args.map:
+            k.configs["map"] = args.map
         if args.avatar:
             k.configs["avatar"] = args.avatar
         if args.username:
@@ -257,11 +263,17 @@ class KeepSultan:
             result = Image.composite(img, Image.new('RGBA', avatar_size, (0, 0, 0, 0)), mask)     
             
             return result
+        
+    def create_map(self, map_path, map_size):
+        with Image.open(map_path).convert('RGBA') as img:
+            img = img.resize(map_size)
+            return img
     
     def process(self):
-        self.load_template("scr/template.png")
+        self.load_template(self.configs["template"])
         
-        avatar = self.create_circular_avatar(self.configs["avatar"], (100, 100))
+        avatar_img = self.create_circular_avatar(self.configs["avatar"], (100, 100))
+        map_img = self.create_map(self.configs["map"], (1000, 800))
 
         end_time = self.configs["end_time"]
         total_time = random_time_in_range(str(self.configs["total_time"][0]), str(self.configs["total_time"][1]))
@@ -278,15 +290,18 @@ class KeepSultan:
 
         self.image_editor.add_text(end_time, (50, 25), "fonts/SourceHanSansCN-Regular.otf", 40, (0, 0, 0)) #系统时间
 
-        self.image_editor.add_image(avatar, (40, 250)) #头像
+        self.image_editor.add_image(avatar_img, (40, 250)) #头像
+
         self.image_editor.add_text(self.configs["username"], (160, 240), "fonts/SourceHanSansCN-Regular.otf", 40, (0, 0, 0)) #用户名
         self.image_editor.add_text(f'{self.configs["date"]} {start_time[:-3]} - {end_time}', (160, 290), "fonts/SourceHanSansCN-Regular.otf", 36, (155, 155, 155)) #日期
 
         self.image_editor.add_text(str(total_km), (50, 485), "fonts/QanelasBlack.otf", 180, (0, 0, 0)) #公里数
         self.image_editor.add_text('公里', (418, 610), "fonts/SourceHanSansCN-Regular.otf", 43, (0, 0, 0))
 
+        self.image_editor.add_image(map_img, (40, 720)) #地图
+
         self.image_editor.add_text(str(sport_time), (55, 1750), "fonts/QanelasSemiBold.otf", 65, (0, 0, 0)) #运动时长
-        self.image_editor.add_text(pace, (445, 1750), "fonts/QanelasSemiBold.otf", 65, (0, 0, 0)) #平均配速
+        self.image_editor.add_text(str(pace), (445, 1750), "fonts/QanelasSemiBold.otf", 65, (0, 0, 0)) #平均配速
         self.image_editor.add_text(str(cost), (800, 1750), "fonts/QanelasSemiBold.otf", 65, (0, 0, 0)) #运动消耗
 
         self.image_editor.add_text(str(total_time), (55, 1910), "fonts/QanelasSemiBold.otf", 65, (0, 0, 0)) #总时长
@@ -297,6 +312,8 @@ class KeepSultan:
 def parse_args():
     parser = argparse.ArgumentParser(description="Sultan of Keep")
     parser.add_argument("--config_path", type=str, default="config.json", help="Path of config file. Default `config.json`")
+    parser.add_argument("--template", type=str, default="scr/template.png", help="Path of template image. Default `scr/template.png`")
+    parser.add_argument("--map", type=str, default="scr/map.png", help="Path of map image. Default `scr/map.png`")
     parser.add_argument("--save_path", type=str, default="save.png", help="Path of saved image. Default `save.png`")
 
     parser.add_argument("--avatar", type=str, default=None, help="Path of avatar image. Default None")
@@ -314,8 +331,10 @@ def parse_args():
 if __name__ == "__main__":
     args = parse_args()
     k = KeepSultan()
-    k.load_configs(args.config_path)
-    k.load_args(args)
+    if args.config_path:
+        k.load_configs(args.config_path)
+    else:
+        k.load_args(args)
     k.process()
     k.save(args.save_path)
 
