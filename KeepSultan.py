@@ -213,8 +213,12 @@ class KeepSultan:
             k.configs["username"] = args.username
         if args.date:
             k.configs["date"] = args.date
+        else:
+            k.configs["date"] = datetime.now().strftime("%Y/%m/%d")
         if args.end_time:
             k.configs["end_time"] = args.end_time
+        else:
+            k.configs["end_time"] = datetime.now().strftime("%H:%M")
         if args.total_km:
             k.configs["total_km"] = args.total_km
         if args.sport_time:
@@ -331,10 +335,8 @@ def parse_args():
 if __name__ == "__main__":
     args = parse_args()
     k = KeepSultan()
-    if args.config_path:
-        k.load_configs(args.config_path)
-    else:
-        k.load_args(args)
+    k.load_configs(args.config_path)
+    k.load_args(args)
     k.process()
     k.save(args.save_path)
 
