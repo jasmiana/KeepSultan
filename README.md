@@ -8,7 +8,7 @@ KeepSultan 是一款为针对新版Keep应用界面的自动化工具，帮助�
 ## 2. 核心功能
 
 ### 2.1 参数自定义与随机生成
-用户可以上传头像与指定用户名，灵活配置以下参数范围，轻松生成个性化截图：
+用户可以上传头像(avatar)、地图(map)与指定用户名(username)，灵活配置以下参数范围，轻松生成个性化截图：
 - 日期（date）
 - 结束时间（end_time）
 - 跑步总里程（total_km）
@@ -18,11 +18,13 @@ KeepSultan 是一款为针对新版Keep应用界面的自动化工具，帮助�
 - 平均步频（average_cadence）
 - 运动负荷（exercise_load）
 
+*我们建议您上传的头像图片宽高比为1:1，地图图片宽高比为35:28*
+
 ### 2.2 GUI 版本
-我们`KeepSultanGUI.py`实现了直观的图形界面，点击即可生成截图。
+在`KeepSultanGUI.py`中，我们实现了直观的图形界面，点击即可生成截图。
 
 ### 2.3 可执行文件
-提供GUI版本的 EXE 文件，适合无 Python 环境的用户，方便部署与分发。
+我们在release中提供 GUI 版本的 EXE 文件，适合无 Python 环境的用户，方便部署与分发。
 
 ## 3. 使用说明
 > “汝若依循此路，KeepSultan 将助汝如虎添翼。”
@@ -36,8 +38,8 @@ pip install pillow
 
 #### 命令行版本：
 ```bash
-python KeepSultan.py [-h] [--config_path CONFIG_PATH] [--save_path SAVE_PATH] 
-                     [--avatar AVATAR] [--username USERNAME] [--date DATE] [--end_time END_TIME] [--total_km TOTAL_KM] [--sport_time SPORT_TIME] [--total_time TOTAL_TIME] [--cumulative_climb CUMULATIVE_CLIMB][--average_cadence AVERAGE_CADENCE] [--exercise_load EXERCISE_LOAD]
+python KeepSultan.py [-h] [--config_path CONFIG_PATH]  [--save_path SAVE_PATH] 
+                     [--template TEMPLATE] [--map MAP] [--avatar AVATAR] [--username USERNAME] [--date DATE] [--end_time END_TIME] [--total_km TOTAL_KM] [--sport_time SPORT_TIME] [--total_time TOTAL_TIME] [--cumulative_climb CUMULATIVE_CLIMB][--average_cadence AVERAGE_CADENCE] [--exercise_load EXERCISE_LOAD]
 ```
 
 #### 图形界面版本：
@@ -46,9 +48,12 @@ python keepsultan_gui.py
 ```
 
 #### 可执行程序
-[下载release](https://github.com/Carzit/KeepSultan/releases/download/v0.0.1/KeepSultan.zip)。
+[下载release](https://github.com/Carzit/KeepSultan/releases/download/v0.0.1/KeepSultan.zip)
 
 ## 4. 胡言乱语
+
+（由ChatGPT生成）
+
 奉至仁至慈的技术之名：
 > “凡束缚自由之平台，皆应技术征服；凡限制创造之规则，皆当被改写。”  
 

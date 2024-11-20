@@ -8,7 +8,7 @@ KeepSultan is an automation tool tailored for the latest version of the Keep app
 ## 2. Core Features
 
 ### 2.1 Customizable Parameters & Random Generation
-Users can upload their avatar and specify a username, flexibly configure the following parameter ranges, and easily generate personalized screenshots:
+Users can upload their avatar, map and specify a username, flexibly configure the following parameter ranges, and easily generate personalized screenshots:
 - Date (date)
 - End Time (end_time)
 - Total Distance Run (total_km)
@@ -36,8 +36,8 @@ pip install pillow
 
 #### Command Line Version:
 ```bash
-python KeepSultan.py [-h] [--config_path CONFIG_PATH] [--save_path SAVE_PATH] 
-                     [--avatar AVATAR] [--username USERNAME] [--date DATE] [--end_time END_TIME] [--total_km TOTAL_KM] [--sport_time SPORT_TIME] [--total_time TOTAL_TIME] [--cumulative_climb CUMULATIVE_CLIMB][--average_cadence AVERAGE_CADENCE] [--exercise_load EXERCISE_LOAD]
+python KeepSultan.py [-h] [--config_path CONFIG_PATH]  [--save_path SAVE_PATH] 
+                     [--template TEMPLATE] [--map MAP] [--avatar AVATAR] [--username USERNAME] [--date DATE] [--end_time END_TIME] [--total_km TOTAL_KM] [--sport_time SPORT_TIME] [--total_time TOTAL_TIME] [--cumulative_climb CUMULATIVE_CLIMB][--average_cadence AVERAGE_CADENCE] [--exercise_load EXERCISE_LOAD]
 ```
 
 #### Graphical Interface Version:
