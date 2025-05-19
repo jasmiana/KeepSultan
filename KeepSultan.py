@@ -183,7 +183,7 @@ class KeepSultan:
         self.image_editor = ImageEditor()
         self.configs = {
             "template": "scr/template-1.png", 
-            "map": "scr/map.png",
+            "map": "scr/zh3.png",
             "avatar": "",
             "username": "",
 

@@ -20,7 +20,7 @@ class ConfigManager:
         now = datetime.now()
         self.configs = {
             "template": "scr/template-1.png",
-            "map": "scr/map3.png",
+            "map": "scr/zh3.jpg",
             "avatar": "",
             "username": "",
             "date": now.date().strftime("%Y/%m/%d"),
