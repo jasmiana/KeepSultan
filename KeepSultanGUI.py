@@ -19,18 +19,18 @@ class ConfigManager:
     def initialize(self):
         now = datetime.now()
         self.configs = {
-            "template": "scr/template.png",
+            "template": "scr/template-1.png",
             "map": "scr/map3.png",
             "avatar": "",
             "username": "",
             "date": now.date().strftime("%Y/%m/%d"),
             "end_time": now.time().strftime("%H:%M"),
             "total_km": [3.02, 3.3],
-            "sport_time": ["00:21:00", "00:23:00"],
-            "total_time": ["00:34:00", "00:39:00"],
-            "cumulative_climb": [90, 96],
-            "average_cadence": [76, 81],
-            "exercise_load": [48, 51]
+            "sport_time": ["00:16:00", "00:20:00"],
+            "total_time": ["00:17:00", "00:21:00"],
+            "cumulative_climb": [49, 96],
+            "average_cadence": [135, 161],
+            "exercise_load": [48, 75]
         }
         if os.path.exists("config.json"):
             with open("config.json", "r") as f:

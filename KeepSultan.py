@@ -182,7 +182,7 @@ class KeepSultan:
     def __init__(self):
         self.image_editor = ImageEditor()
         self.configs = {
-            "template": "scr/template.png", 
+            "template": "scr/template-1.png", 
             "map": "scr/map.png",
             "avatar": "",
             "username": "",
@@ -281,7 +281,13 @@ class KeepSultan:
 
         end_time = self.configs["end_time"]
         total_time = random_time_in_range(str(self.configs["total_time"][0]), str(self.configs["total_time"][1]))
-        sport_time = random_time_in_range(str(self.configs["sport_time"][0]), str(self.configs["sport_time"][1]))
+        # sport_time = random_time_in_range(str(self.configs["sport_time"][0]), str(self.configs["sport_time"][1]))
+        flag = True
+        while flag:
+            a = random_time_in_range(str(self.configs["sport_time"][0]), str(self.configs["sport_time"][1]))
+            if a < total_time:
+                sport_time = a
+                flag = False
         start_time = calculate_start_time(end_time, total_time)
         total_km = random_number_in_range(float(self.configs["total_km"][0]), float(self.configs["total_km"][1]), precision=2)
 
@@ -316,7 +322,7 @@ class KeepSultan:
 def parse_args():
     parser = argparse.ArgumentParser(description="Sultan of Keep")
     parser.add_argument("--config_path", type=str, default="config.json", help="Path of config file. Default `config.json`")
-    parser.add_argument("--template", type=str, default="scr/template.png", help="Path of template image. Default `scr/template.png`")
+    parser.add_argument("--template", type=str, default="scr/template-1.png", help="Path of template image. Default `scr/template-1.png`")
     parser.add_argument("--map", type=str, default="scr/map.png", help="Path of map image. Default `scr/map.png`")
     parser.add_argument("--save_path", type=str, default="save.png", help="Path of saved image. Default `save.png`")
 

@@ -1,32 +1,32 @@
 {
-    "template": "scr/template.png",
+    "template": "scr/template-1.png",
     "map": "scr/map3.png",
-    "avatar": "",
-    "username": "",
-    "date": "2024/11/20",
-    "end_time": "20:14",
+    "avatar": "scr/Vex.jpg",
+    "username": "j",
+    "date": "2025/05/19",
+    "end_time": "20:21",
     "total_km": [
         "3.02",
         "3.3"
     ],
     "sport_time": [
-        "00:21:00",
-        "00:23:00"
+        "00:16:00",
+        "00:20:00"
     ],
     "total_time": [
-        "00:34:00",
-        "00:39:00"
+        "00:17:00",
+        "00:21:00"
     ],
     "cumulative_climb": [
-        "90",
+        "49",
         "96"
     ],
     "average_cadence": [
-        "76",
-        "81"
+        "125",
+        "161"
     ],
     "exercise_load": [
         "48",
-        "51"
+        "75"
     ]
 }
