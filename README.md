@@ -1,6 +1,6 @@
 ## ⚠️本项目仅供学习交流使用，禁止用于任何商业用途
 
-本仓库基于原作者 [Carzit](https://github.com/Carzit) 开源的 [原始版本] (https://github.com/Carzit/KeepSultan)修改，由 jasmiana 添加了一些地图并修复了一些bug，在此表示衷心感谢。
+本仓库基于原作者 [Carzit](https://github.com/Carzit) 开源的 [原始版本](https://github.com/Carzit/KeepSultan) 修改，由 jasmiana 添加了一些地图并修复了一些bug，在此表示衷心感谢。
 <br>
 
 # KeepSultan: Keep应用跑步截图生成器
