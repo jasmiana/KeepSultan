@@ -5,6 +5,7 @@ import argparse
 from datetime import datetime, timedelta
 from PIL import Image, ImageDraw, ImageFont
 import json
+import os
 
 from numbers import Number
 from typing import List, Tuple, Dict, Literal, Union, Optional, Callable, Any
@@ -211,14 +212,21 @@ class KeepSultan:
             k.configs["avatar"] = args.avatar
         if args.username:
             k.configs["username"] = args.username
+        
+        # --- 日期和时间加载逻辑修改 ---
+        # 如果用户 *没有* 通过 --date 指定，我们才使用默认的
         if args.date:
             k.configs["date"] = args.date
-        else:
+        elif "date" not in k.configs: # 确保 config 里有这个键
             k.configs["date"] = datetime.now().strftime("%Y/%m/%d")
+            
+        # 如果用户 *没有* 通过 --end_time 指定，我们才使用默认的
         if args.end_time:
             k.configs["end_time"] = args.end_time
-        else:
+        elif "end_time" not in k.configs: # 确保 config 里有这个键
             k.configs["end_time"] = datetime.now().strftime("%H:%M")
+        # --- 日期和时间加载逻辑修改结束 ---
+
         if args.total_km:
             k.configs["total_km"] = args.total_km
         if args.sport_time:
@@ -279,7 +287,10 @@ class KeepSultan:
         avatar_img = self.create_circular_avatar(self.configs["avatar"], (100, 100))
         map_img = self.create_map(self.configs["map"], (1000, 800))
 
+        # --- 注意：这里的 end_time 和 date 将由主循环传入 ---
         end_time = self.configs["end_time"]
+        date_str = self.configs["date"]
+
         total_time = random_time_in_range(str(self.configs["total_time"][0]), str(self.configs["total_time"][1]))
         # sport_time = random_time_in_range(str(self.configs["sport_time"][0]), str(self.configs["sport_time"][1]))
         flag = True
@@ -289,8 +300,11 @@ class KeepSultan:
                 sport_time = a
                 flag = False
         start_time = calculate_start_time(end_time, total_time)
+        
+        # 修复了上一轮的小数点问题
         total_km = random_number_in_range(float(self.configs["total_km"][0]), float(self.configs["total_km"][1]), precision=2)
-
+        total_km_str = f"{total_km:.2f}" # 确保
+        
         pace = calculate_pace(total_km, sport_time)
         cost = calculate_cost(total_time)
 
@@ -303,9 +317,11 @@ class KeepSultan:
         self.image_editor.add_image(avatar_img, (40, 250)) #头像
 
         self.image_editor.add_text(self.configs["username"], (160, 240), "fonts/SourceHanSansCN-Regular.otf", 40, (0, 0, 0)) #用户名
-        self.image_editor.add_text(f'{self.configs["date"]} {start_time[:-3]} - {end_time}', (160, 290), "fonts/SourceHanSansCN-Regular.otf", 36, (155, 155, 155)) #日期
+        
+        # 使用传入的 date_str
+        self.image_editor.add_text(f'{date_str} {start_time[:-3]} - {end_time}', (160, 290), "fonts/SourceHanSansCN-Regular.otf", 36, (155, 155, 155)) #日期
 
-        self.image_editor.add_text(str(total_km), (50, 485), "fonts/QanelasBlack.otf", 180, (0, 0, 0)) #公里数
+        self.image_editor.add_text(total_km_str, (50, 485), "fonts/QanelasBlack.otf", 180, (0, 0, 0)) #公里数
         self.image_editor.add_text('公里', (418, 610), "fonts/SourceHanSansCN-Regular.otf", 43, (0, 0, 0))
 
         self.image_editor.add_image(map_img, (40, 720)) #地图
@@ -323,13 +339,19 @@ def parse_args():
     parser = argparse.ArgumentParser(description="Sultan of Keep")
     parser.add_argument("--config_path", type=str, default="config.json", help="Path of config file. Default `config.json`")
     parser.add_argument("--template", type=str, default="scr/template-1.png", help="Path of template image. Default `scr/template-1.png`")
-    parser.add_argument("--map", type=str, default="scr/map.png", help="Path of map image. Default `scr/map.png`")
+    
+    # (来自上一轮的修改)
+    parser.add_argument("--map", type=str, default=None, help="Path of map image. If not provided, a random map (zh1-zh6) will be used. Default None")
     parser.add_argument("--save_path", type=str, default="save.png", help="Path of saved image. Default `save.png`")
+    parser.add_argument("--num", type=int, default=1, help="Number of images to generate. Default 1")
 
     parser.add_argument("--avatar", type=str, default=None, help="Path of avatar image. Default None")
     parser.add_argument("--username", type=str, default=None, help="Username. Default None")
-    parser.add_argument("--date", type=str, default=None, help="Date. Default None")
+    
+    # 保持 --date 和 --end_time，用于单次覆盖
+    parser.add_argument("--date", type=str, default=None, help="Date. (e.g., 2025/11/13) Default None")
     parser.add_argument("--end_time", type=str, default=None, help="End time, in format of &H:&M. Default None")
+    
     parser.add_argument("--total_km", type=float, default=None, help="Total running distance (km). Default None")
     parser.add_argument("--sport_time", type=str, default=None, help="Sport time, in format of &H:&M:&S. Default None")
     parser.add_argument("--total_time", type=str, default=None, help="Total time, in format of &H:&M:&S. Default None")
@@ -342,8 +364,87 @@ if __name__ == "__main__":
     args = parse_args()
     k = KeepSultan()
     k.load_configs(args.config_path)
-    k.load_args(args)
-    k.process()
-    k.save(args.save_path)
-    print(f"Saved to {args.save_path}")
+    k.load_args(args) # 加载 config 和 命令行参数
 
+    # --- MODIFICATION 1: 定义你的自定义时间列表 ---
+    # 在这里添加你想要的所有日期和时间
+    # 格式必须是 "YYYY/MM/DD HH:MM" (注意中间的空格)
+    CUSTOM_DATETIMES = [
+        "2025/11/12 22:15",
+        "2025/11/11 20:37",
+        "2025/11/10 21:59",
+        "2025/11/7 21:45",
+        "2025/11/6 20:01",
+        "2025/11/5 22:21",
+        "2025/11/3 21:30",
+        "2025/10/31 20:05",
+        "2025/10/30 21:40",
+        "2025/10/28 20:57",
+        # ... 你可以继续添加更多 ...
+    ]
+    # --- END OF MODIFICATION 1 ---
+
+    # 你的地图模板列表 (来自上一轮的修改)
+    # !! 确保这里的 .jpg 后缀是正确的
+    map_templates = [f"scr/zh{i}.jpg" for i in range(1, 7)]
+    
+    # 解析保存路径，用于生成唯一文件名
+    base_save_path, save_ext = os.path.splitext(args.save_path)
+
+    print(f"开始生成 {args.num} 张图片...")
+
+    for i in range(args.num):
+        print(f"--- 正在生成第 {i+1}/{args.num} 张图片 ---")
+
+        # --- MODIFICATION 2: 应用自定义时间 ---
+        # 检查用户是否 *没有* 通过命令行指定 --date 或 --end_time
+        # 如果指定了，将优先使用命令行参数
+        if args.date is None and args.end_time is None:
+            if not CUSTOM_DATETIMES:
+                print("[警告] CUSTOM_DATETIMES 列表为空, 将使用默认的当前时间。")
+                k.configs["date"] = datetime.now().strftime("%Y/%m/%d")
+                k.configs["end_time"] = datetime.now().strftime("%H:%M")
+            else:
+                # 从列表中获取当前时间，如果列表用完了，就从头开始 (wrap around)
+                time_entry = CUSTOM_DATETIMES[i % len(CUSTOM_DATETIMES)]
+                
+                try:
+                    # 分割日期和时间 (按空格)
+                    date_str, time_str = time_entry.split(' ')
+                    # 覆盖 k.configs 中的值
+                    k.configs["date"] = date_str
+                    k.configs["end_time"] = time_str
+                    print(f"使用自定义时间: {time_entry}")
+                except ValueError:
+                    print(f"[错误] 自定义时间格式不正确: '{time_entry}'。应为 'YYYY/MM/DD HH:MM'。")
+                    print("将使用 config.json 中的默认时间。")
+                    # 如果格式错误，k.configs 中的值 (来自 load_args) 保持不变
+        else:
+             print(f"使用命令行指定的时间: {k.configs['date']} {k.configs['end_time']}")
+        # --- END OF MODIFICATION 2 ---
+
+
+        # --- 随机地图逻辑 (来自上一轮的修改) ---
+        if args.map is None:
+            # 如果用户 *没有* 通过 --map 指定地图，则随机选一个
+            random_map = random.choice(map_templates)
+            k.configs["map"] = random_map # 覆盖配置
+            print(f"使用随机地图: {random_map}")
+        else:
+            # 如果用户 *指定了* --map，load_args 已经加载了
+            print(f"使用指定地图: {k.configs['map']}")
+            pass
+
+        # 使用选定的地图和时间处理图片
+        k.process()
+
+        # --- 保存路径逻辑 (来自上一轮的修改) ---
+        current_save_path = args.save_path
+        if args.num > 1:
+            # 如果生成数量大于1，则添加后缀，例如 save_1.png, save_2.png
+            current_save_path = f"j_{base_save_path}_{i+1}{save_ext}"
+        
+        k.save(current_save_path)
+        print(f"已保存至: {current_save_path}")
+
+    print("--- 全部完成 ---")

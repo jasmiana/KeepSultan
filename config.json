@@ -2,24 +2,24 @@
     "template": "scr/template-1.png",
     "map": "scr/zh3.jpg",
     "avatar": "scr/Vex.jpg",
-    "username": "j",
-    "date": "2025/05/19",
-    "end_time": "21:10",
+    "username": "李佳乐23330056",
+    "date": "2025/05/26",
+    "end_time": "20:53",
     "total_km": [
-        "3.02",
-        "3.3"
+        "3.05",
+        "3.2"
     ],
     "sport_time": [
-        "00:16:00",
-        "00:20:00"
-    ],
-    "total_time": [
         "00:17:00",
         "00:21:00"
     ],
+    "total_time": [
+        "00:17:30",
+        "00:21:30"
+    ],
     "cumulative_climb": [
-        "49",
-        "96"
+        "80",
+        "142"
     ],
     "average_cadence": [
         "125",
